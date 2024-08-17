@@ -32,17 +32,17 @@ app.post('/api/shorturl', function(req, res) {
   try {
     urlObject = new URL(originalUrl);
   } catch (err) {
-    return res.json(JSON.stringify({ error: 'Invalid URL' }, null, 2));
+    return res.json({ error: 'Invalid URL' });
   }
 
   dns.lookup(urlObject.hostname, (err) => {
     if (err) {
-      return res.json(JSON.stringify({ error: 'Invalid URL' }, null, 2));
+      return res.json({ error: 'Invalid URL' });
     }
 
     const shortUrl = urlCount++;
     urls[shortUrl] = originalUrl;
-    res.json(JSON.stringify({ original_url: originalUrl, short_url: shortUrl }, null, 2));
+    res.json({ original_url: originalUrl, short_url: shortUrl });
   });
 });
 
@@ -54,7 +54,7 @@ app.get('/api/shorturl/:shortUrl', function(req, res) {
   if (originalUrl) {
     res.redirect(originalUrl);
   } else {
-    res.json(JSON.stringify({ error: 'No short URL found for the given input' }, null, 2));
+    res.json({ error: 'No short URL found for the given input' });
   }
 });
 
